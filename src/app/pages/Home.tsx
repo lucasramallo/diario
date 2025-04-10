@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "../Components/Card";
 import styles from "../styles/Home.module.css";
+import MyButton from "../Components/Button";
 
 interface Post {
   id: number;
@@ -81,6 +82,7 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <MyButton />
       <div className={styles.grid}>
         {posts.map((post) => (
           <div key={post.id} className={styles.cardWrapper}>
