@@ -2,6 +2,7 @@ import React from "react";
 import Card from "../Components/Card";
 import styles from "../styles/Home.module.css";
 import PanelComponent from "../Components/PanelComponent";
+import PostForm from "../Components/PostForm";
 
 interface Post {
   id: number;
@@ -58,6 +59,7 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <PostForm />
       <PanelComponent />
       <div className={styles.grid}>
         {posts.map((post) => (
