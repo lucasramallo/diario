@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import { Image } from 'primereact/image';
 
 export default function PanelComponent() {
-    const configMenu = useRef(null);
+    const configMenu = useRef<Menu>(null);
 
     const items = [
         { separator: true },

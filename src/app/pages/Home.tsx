@@ -55,8 +55,6 @@ const Home: React.FC = () => {
         "Passei a tarde tentando resolver um bug e nada funcionava. Fiquei frustrado, mas decidi sair um pouco, caminhar e voltar depois. Quando voltei, olhei o código com outros olhos e consegui resolver em 10 minutos. Aprendi que parar também faz parte do processo.",
     },
   ];
-  
-  
 
   return (
     <div className={styles.container}>
