@@ -1,28 +1,19 @@
 // src/Components/PostForm.tsx
-import React, { useState } from "react";
 import styles from "../styles/PostForm.module.css";
 
-const PostForm: React.FC = () => {
-  const [text, setText] = useState("");
+interface PostFormProps {
+  onOpenDialog: () => void;
+}
 
-  const handleSubmit = () => {
-    if (text.trim()) {
-      console.log("Texto enviado:", text);
-      setText("");
-    }
-  };
-
+const PostForm: React.FC<PostFormProps> = ({ onOpenDialog }) => {
   return (
     <div className={styles.formContainer}>
       <textarea
         className={styles.textarea}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
         placeholder="Escreva seu post aqui..."
+        onClick={onOpenDialog}
+        readOnly
       />
-      <button className={styles.button} onClick={handleSubmit}>
-        Enviar
-      </button>
     </div>
   );
 };

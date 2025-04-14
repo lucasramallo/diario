@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../Components/Card";
 import styles from "../styles/Home.module.css";
 import PanelComponent from "../Components/PanelComponent";
 import PostForm from "../Components/PostForm";
+import DialogComponent from "../Components/DialogComponent";
 
 interface Post {
   id: number;
@@ -13,6 +14,18 @@ interface Post {
 }
 
 const Home: React.FC = () => {
+
+  const [dialogVisible, setDialogVisible] = useState(false);
+
+  const openDialog = () => {
+      setDialogVisible(true);
+  };
+
+  const closeDialog = () => {
+    setDialogVisible(false);
+  };
+
+
   // Dados mockados
   const posts: Post[] = [
     {
@@ -59,7 +72,10 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <PostForm />
+      <PostForm onOpenDialog={openDialog} />
+
+      <DialogComponent visible={dialogVisible} onHide={closeDialog} />
+
       <PanelComponent />
       <div className={styles.grid}>
         {posts.map((post) => (
