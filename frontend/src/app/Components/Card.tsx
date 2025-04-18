@@ -7,17 +7,17 @@ interface CardProps {
   id: number;
   date: string;
   title: string;
-  subtitle: string;
   content: string;
+  image: string; 
 }
 
-const Card: React.FC<CardProps> = ({ id, date, title, subtitle, content }) => {
+const Card: React.FC<CardProps> = ({ id, date, title, content, image }) => {
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>
         <span className={styles.date}>{date}</span>
         <h2 className={styles.title}>{title}</h2>
-        <h3 className={styles.subtitle}>{subtitle}</h3>
+        <img src={image} alt={title} className={styles.cardImage} />  
       </div>
       <div className={styles.cardContent}>
         <p>{content.length > 120 ? `${content.substring(0, 120)}...` : content}</p>

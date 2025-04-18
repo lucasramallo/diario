@@ -11,6 +11,7 @@ interface Post {
   title: string;
   subtitle: string;
   content: string;
+  image: string;
 }
 
 const Home: React.FC = () => {
@@ -26,7 +27,6 @@ const Home: React.FC = () => {
   };
 
 
-  // Dados mockados
   const posts: Post[] = [
     {
       id: 1,
@@ -35,6 +35,7 @@ const Home: React.FC = () => {
       subtitle: "Descobrindo um novo mundo",
       content:
         "Tudo começou quando decidi fazer um curso online gratuito. Mesmo sem saber nada, fui me desafiando diariamente, resolvendo exercícios e criando pequenos projetos. No início, tudo parecia um bicho de sete cabeças. Mas a curiosidade me mantinha motivado. Hoje vejo o quanto evoluí só por não ter desistido.",
+        image: "https://html5up.net/uploads/demos/massively/images/pic01.jpg",
     },
     {
       id: 2,
@@ -43,6 +44,7 @@ const Home: React.FC = () => {
       subtitle: "Ansiedade e concentração",
       content:
         "Hoje foi dia de prova na faculdade. Acordei nervoso, revisei até os últimos minutos. Na hora, respirei fundo e tentei manter a calma. Senti que consegui aplicar bem o que estudei. Agora é esperar o resultado e torcer para que o esforço tenha valido a pena.",
+        image: "https://html5up.net/uploads/demos/massively/images/pic01.jpg",
     },
     {
       id: 3,
@@ -51,6 +53,7 @@ const Home: React.FC = () => {
       subtitle: "Conversas que inspiram",
       content:
         "Encontrei um amigo da área de TI e acabamos trocando várias ideias sobre projetos. Ele me mostrou um app que está desenvolvendo e me deu insights para melhorar um projeto meu também. Essas conversas me mostram como estar perto de gente que compartilha dos mesmos interesses pode nos impulsionar.",
+        image: "https://html5up.net/uploads/demos/massively/images/pic01.jpg",
     },
     {
       id: 4,
@@ -59,6 +62,7 @@ const Home: React.FC = () => {
       subtitle: "Ajudando e aprendendo",
       content:
         "Hoje foi dia de monitoria e pude ajudar alguns colegas com dúvidas sobre orientação a objetos. Às vezes, explicando, percebo que reforço ainda mais meu entendimento. Ver alguém entender algo com minha ajuda é uma sensação incrível.",
+        image: "https://html5up.net/uploads/demos/massively/images/pic01.jpg",
     },
     {
       id: 5,
@@ -67,6 +71,7 @@ const Home: React.FC = () => {
       subtitle: "Frustração temporária",
       content:
         "Passei a tarde tentando resolver um bug e nada funcionava. Fiquei frustrado, mas decidi sair um pouco, caminhar e voltar depois. Quando voltei, olhei o código com outros olhos e consegui resolver em 10 minutos. Aprendi que parar também faz parte do processo.",
+        image: "https://html5up.net/uploads/demos/massively/images/pic01.jpg",
     },
   ];
 
@@ -86,6 +91,7 @@ const Home: React.FC = () => {
               title={post.title}
               subtitle={post.subtitle}
               content={post.content}
+              image={post.image}
             />
           </div>
         ))}
