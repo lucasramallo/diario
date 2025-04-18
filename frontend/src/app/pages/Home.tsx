@@ -86,10 +86,9 @@ const Home: React.FC = () => {
         {posts.map((post) => (
           <div key={post.id} className={styles.cardWrapper}>
             <Card
-              id={post.id} // Certifique-se de passar o ID
+              id={post.id}
               date={post.date}
               title={post.title}
-              subtitle={post.subtitle}
               content={post.content}
               image={post.image}
             />
