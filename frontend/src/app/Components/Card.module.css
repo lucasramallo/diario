@@ -62,3 +62,20 @@
   .fullStoryButton:hover {
     background-color: #f0f0f0;
   }
+
+.fullStoryButton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #0070f3;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+}
+
+.fullStoryButton:hover {
+  background: #005bb5;
+}

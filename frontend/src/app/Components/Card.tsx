@@ -1,44 +1,33 @@
-import React, { useState } from "react";
+// src/app/Components/Card.tsx
+import React from "react";
+import Link from "next/link";
 import styles from "./Card.module.css";
-import FullStoryDialog from "./FullStoryDialog";
 
 interface CardProps {
+  id: number;
   date: string;
   title: string;
   subtitle: string;
   content: string;
 }
 
-const Card: React.FC<CardProps> = ({ date, title, subtitle, content }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+const Card: React.FC<CardProps> = ({ id, date, title, subtitle, content }) => {
   return (
-    <>
-      <div className={styles.card}>
-        <div className={styles.cardHeader}>
-          <span className={styles.date}>{date}</span>
-          <h2 className={styles.title}>{title}</h2>
-          <h3 className={styles.subtitle}>{subtitle}</h3>
-        </div>
-        <div className={styles.cardContent}>
-          <p>{content.length > 120 ? `${content.substring(0, 120)}...` : content}</p>
-        </div>
-        <div className={styles.cardFooter}>
-          <button className={styles.fullStoryButton} onClick={() => setIsDialogOpen(true)}>
-            FULL STORY
-          </button>
-        </div>
+    <div className={styles.card}>
+      <div className={styles.cardHeader}>
+        <span className={styles.date}>{date}</span>
+        <h2 className={styles.title}>{title}</h2>
+        <h3 className={styles.subtitle}>{subtitle}</h3>
       </div>
-
-      <FullStoryDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        title={title}
-        subtitle={subtitle}
-        content={content}
-        date={date}
-      />
-    </>
+      <div className={styles.cardContent}>
+        <p>{content.length > 120 ? `${content.substring(0, 120)}...` : content}</p>
+      </div>
+      <div className={styles.cardFooter}>
+        <Link href={`/post?id=${id}`} className={styles.fullStoryButton}>
+          FULL STORY
+        </Link>
+      </div>
+    </div>
   );
 };
 
