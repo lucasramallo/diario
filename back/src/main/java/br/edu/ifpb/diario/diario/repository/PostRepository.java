@@ -1,16 +1,12 @@
 package br.edu.ifpb.diario.diario.repository;
 
 import br.edu.ifpb.diario.diario.domain.Post;
-import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
-public interface PostRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-    List<Post> findAll();
+@Repository
+public interface PostRepository extends JpaRepository<Post, UUID> {
 
-    Optional<Post> findById(Long id);
-
-    Post save(Post post);
-
-    void deleteById(Long id);
 }
