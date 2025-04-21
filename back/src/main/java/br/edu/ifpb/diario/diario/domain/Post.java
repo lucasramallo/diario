@@ -1,21 +1,37 @@
 package br.edu.ifpb.diario.diario.domain;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.UUID;
 
-public interface Post {
+@Entity
+@Table(name = "posts")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Post{
 
-    UUID getId();
-    void setId(UUID id);
+    @Id
+    @GeneratedValue
+    private UUID id;
 
-    String getContent();
-    void setContent(String content);
+    @NotBlank(message = "O título é obrigatório")
+    @Size(max = 150, message = "O título deve ter no máximo 150 caracteres")
+    @Column(nullable = false)
+    private String title;
 
-    String getTitle();
-    void setTitle(String title);
+    @Size(max = 255, message = "O subtítulo deve ter no máximo 255 caracteres")
+    private String subtitle;
 
-    String getSubtitle();
-    void setSubtitle(String subtitle);
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String content;
 
-    String getImageUrl();
-    void setImageUrl(String imageUrl);
+    @NotBlank(message = "O título é obrigatório")
+    @Size(max = 500, message = "A URL da imagem deve ter no máximo 500 caracteres")
+    private String imageUrl;
 }
