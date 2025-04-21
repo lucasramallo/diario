@@ -6,9 +6,10 @@ import Form from "./Form";
 interface dialogComponentProps {
     visible: boolean;
     onHide: () => void;
+    closeDialog: () => void;
 }
 
-const dialogComponent: React.FC<dialogComponentProps> = ({ visible, onHide }) => {
+const dialogComponent: React.FC<dialogComponentProps> = ({ visible, onHide, closeDialog }) => {
     const headerElement =
         <div className="inline-flex align-items-center justify-content-center gap-2">
             <span className="font-bold white-space-nowrap" ></span>
@@ -20,7 +21,7 @@ const dialogComponent: React.FC<dialogComponentProps> = ({ visible, onHide }) =>
             style={{ width: '50rem' }}
             onHide={onHide}
         >
-            <Form />        
+            <Form closeDialog={closeDialog}/>        
         </Dialog>
     )
 }

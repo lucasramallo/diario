@@ -33,3 +33,7 @@ body.custom-background::before {
     z-index: -1;
   }
   
+  .p-invalid {
+    border: 1px solid red !important;
+    box-shadow: none !important;
+  }

@@ -6,7 +6,7 @@ interface PostFormProps {
   onOpenDialog: () => void;
 }
 
-const Header: React.FC<PostFormProps> = ({onOpenDialog}) => {
+const Header: React.FC<PostFormProps> = ({ onOpenDialog }) => {
   const handleClick = () => {
     onOpenDialog()
   };

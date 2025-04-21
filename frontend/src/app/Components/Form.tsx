@@ -7,6 +7,8 @@ import { Button } from 'primereact/button';
 import styles from '../styles/Form.module.css';
 import { Image } from 'primereact/image';
 import InputComponent from './InputComponent';
+import { useStore } from '../store/useStore';
+import { Message } from 'primereact/message';
 
 interface FormData {
   titulo: string;
@@ -16,7 +18,11 @@ interface FormData {
   imagemURL: string | null;
 }
 
-const Form: React.FC = () => {
+interface props {
+  closeDialog: () => void;
+}
+
+const Form: React.FC<props> = ({ closeDialog }) => {
   const [formData, setFormData] = useState<FormData>({
     titulo: '',
     subtitulo: '',
@@ -24,6 +30,11 @@ const Form: React.FC = () => {
     imagem: null,
     imagemURL: null,
   });
+  const [invalidTitle, setInvalidTitle] = useState(false)
+  const [invalidSubtitle, setInvalidSubtitle] = useState(false)
+  const [invalidImage, seInvalidImage] = useState(false)
+
+  const { successSubmit, setSuccess } = useStore();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,86 +54,122 @@ const Form: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Dados enviados:', formData);
-    // Aqui você pode enviar os dados para a API, etc.
+
+    if (formData.titulo && formData.subtitulo && formData.imagem) {
+      setInvalidTitle(false);
+      setInvalidSubtitle(false);
+      seInvalidImage(false);
+    }
+
+    if (!formData.titulo && !formData.subtitulo && !formData.imagem) {
+      setInvalidTitle(true);
+      setInvalidSubtitle(true);
+      seInvalidImage(true);
+    }
+    
+    if(!formData.titulo) {
+      setInvalidTitle(true);
+      return;
+    }
+
+    if(!formData.subtitulo) {
+      setInvalidSubtitle(true);
+      return;
+    }
+
+    if(!formData.imagem) {
+      seInvalidImage(true);
+      return;
+    }
+
+    setSuccess();
+    closeDialog();
   };
 
   console.log(formData);
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formulario}>
-      <div className={styles.campo}>
-        <label htmlFor="titulo" className={styles.rotulo}>Título</label>
-        <InputComponent
-          id="titulo"
-          name="titulo"
-          value={formData.titulo}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className={styles.campo}>
-        <label htmlFor="subtitulo" className={styles.rotulo}>Subtítulo</label>
-        <InputComponent
-          id="subtitulo"
-          name="subtitulo"
-          value={formData.subtitulo}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className={styles.campo}>
-        <label htmlFor="conteudo" className={styles.rotulo}>Conteúdo</label>
-        <InputTextarea
-          id="conteudo"
-          name="conteudo"
-          value={formData.conteudo}
-          onChange={handleInputChange}
-          rows={5}
-          className="w-full"
-          onMouseOver={(e) => {
-            e.currentTarget.style.borderColor = '#c2c2c2';
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.borderColor = '#c2c2c2';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.borderColor = '#c2c2c2';
-          }}
-        />
-      </div>
-
-      <div className={styles.campo}>
-        <FileUpload
-          name="imagem"
-          mode="basic"
-          auto
-          customUpload
-          uploadHandler={handleUpload}
-          chooseLabel="Selecionar Imagem"
-          accept="image/*"
-          chooseOptions={{
-            style: {
-              backgroundColor: '#131313',
-              color: 'white',
-              border: '1.5px solid #131313',
-            },
-          }}
-        />
-      </div>
-
-      {formData.imagemURL && (
+    <>
+      <form onSubmit={handleSubmit} className={styles.formulario}>
         <div className={styles.campo}>
-          <Image src={formData.imagemURL} alt="Imagem selecionada" width="100%" preview />
+          <label htmlFor="titulo" className={styles.rotulo}>Título</label>
+          <InputComponent
+            id="titulo"
+            name="titulo"
+            value={formData.titulo}
+            onChange={handleInputChange}
+            invalid={invalidTitle}
+            textError='Título obrigatório'
+          />
         </div>
-      )}
 
-      <Button 
-        label="Enviar" 
-        icon="pi pi-check" 
-        type="submit" 
-        style={{ backgroundColor: '#131313', color: 'white', border: '1.5px solid #131313' }}
-      />
-    </form>
+        <div className={styles.campo}>
+          <label htmlFor="subtitulo" className={styles.rotulo}>Subtítulo</label>
+          <InputComponent
+            id="subtitulo"
+            name="subtitulo"
+            value={formData.subtitulo}
+            onChange={handleInputChange}
+            invalid={invalidSubtitle}
+            textError='Subtítulo obrigatório'
+          />
+        </div>
+
+        <div className={styles.campo}>
+          <label htmlFor="conteudo" className={styles.rotulo}>Conteúdo</label>
+          <InputTextarea
+            id="conteudo"
+            name="conteudo"
+            value={formData.conteudo}
+            onChange={handleInputChange}
+            rows={5}
+            className="w-full"
+            onMouseOver={(e) => {
+              e.currentTarget.style.borderColor = '#c2c2c2';
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = '#c2c2c2';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = '#c2c2c2';
+            }}
+          />
+        </div>
+
+        <div className="flex flex-wrap align-items-center mb-3 gap-2">
+          <FileUpload
+            name="imagem"
+            mode="basic"
+            auto
+            customUpload
+            uploadHandler={handleUpload}
+            chooseLabel="Selecionar Imagem"
+            accept="image/*"
+            chooseOptions={{
+              style: {
+                backgroundColor: '#131313',
+                color: 'white',
+                border: '1.5px solid #131313',
+              },
+            }}
+          />
+          {invalidImage && <Message severity="error" text={"Imagem Obrigatória!"} />}
+        </div>
+
+        {formData.imagemURL && (
+          <div className={styles.campo}>
+            <Image src={formData.imagemURL} alt="Imagem selecionada" width="100%" preview />
+          </div>
+        )}
+
+        <Button 
+          label="Enviar" 
+          icon="pi pi-check" 
+          type="submit" 
+          style={{ backgroundColor: '#131313', color: 'white', border: '1.5px solid #131313' }}
+        />
+      </form>
+    </>
   );
 };
 
