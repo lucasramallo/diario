@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post{
+public class Post {
 
     @Id
     @GeneratedValue
@@ -34,4 +35,12 @@ public class Post{
     @NotBlank(message = "O título é obrigatório")
     @Size(max = 500, message = "A URL da imagem deve ter no máximo 500 caracteres")
     private String imageUrl;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

@@ -3,7 +3,8 @@ package br.edu.ifpb.diario.diario.controller;
 import br.edu.ifpb.diario.diario.config.FileStorageProperties;
 import br.edu.ifpb.diario.diario.domain.Post;
 import br.edu.ifpb.diario.diario.dtos.ImageDTO;
-import br.edu.ifpb.diario.diario.dtos.PostResquestDTO;
+import br.edu.ifpb.diario.diario.dtos.PostRequestDTO;
+import br.edu.ifpb.diario.diario.dtos.PostResponseDTO;
 import br.edu.ifpb.diario.diario.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,18 +32,18 @@ public class PostController {
                 .toAbsolutePath().normalize();
     }
 
-    @PostMapping("/{posts}")
-    public ResponseEntity<Post> save(@RequestBody PostResquestDTO postRequestDTO) {
-        Post savedPost = postService.createPost(postRequestDTO, null, null);
+    @PostMapping()
+    public ResponseEntity<PostResponseDTO> save(@RequestBody PostRequestDTO postRequestDTO) {
+        PostResponseDTO savedPost = postService.createPost(postRequestDTO);
         if (savedPost == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(savedPost);
     }
 
-    @GetMapping("/posts{id}")
-    public ResponseEntity<Post> getById(@PathVariable UUID id) {
-        Post post = postService.getPostById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> getById(@PathVariable UUID id) {
+        PostResponseDTO post = postService.getPostById(id);
         if (post != null) {
             return ResponseEntity.ok(post);
         } else {
@@ -50,9 +51,9 @@ public class PostController {
         }
     }
 
-    @GetMapping("/{posts}")
-    public ResponseEntity<List<Post>> getAll() {
-        List<Post> posts = postService.getAllPosts();
+    @GetMapping()
+    public ResponseEntity<List<PostResponseDTO>> getAll() {
+        List<PostResponseDTO> posts = postService.getAllPosts();
         return ResponseEntity.ok(posts);
     }
 

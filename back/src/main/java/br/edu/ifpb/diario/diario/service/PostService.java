@@ -1,10 +1,12 @@
 package br.edu.ifpb.diario.diario.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import br.edu.ifpb.diario.diario.domain.Post;
 import br.edu.ifpb.diario.diario.dtos.ImageDTO;
-import br.edu.ifpb.diario.diario.dtos.PostResquestDTO;
+import br.edu.ifpb.diario.diario.dtos.PostRequestDTO;
+import br.edu.ifpb.diario.diario.dtos.PostResponseDTO;
 import br.edu.ifpb.diario.diario.repository.PostRepository;
 import java.util.UUID;
 
@@ -24,14 +26,23 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Post createPost(PostResquestDTO resquestDTO, String filePath, String filename) {
+    public PostResponseDTO createPost(PostRequestDTO resquestDTO) {
         Post newPost = new Post();
         newPost.setTitle(resquestDTO.title());
         newPost.setSubtitle(resquestDTO.subtitle());
         newPost.setContent(resquestDTO.content());
         newPost.setImageUrl(resquestDTO.imageUrl());
 
-        return postRepository.save(newPost);
+        postRepository.save(newPost);
+
+        return new PostResponseDTO(
+                newPost.getId(),
+                newPost.getTitle(),
+                newPost.getSubtitle(),
+                newPost.getContent(),
+                newPost.getImageUrl(),
+                newPost.getCreatedAt()
+        );
     }
 
     public ImageDTO uploadImage(String filePath, String filename) {
@@ -54,11 +65,35 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostResponseDTO> getAllPosts() {
+        List<PostResponseDTO> respose = new ArrayList<>();
+        List<Post> posts = postRepository.findAll();
+
+        posts.forEach(post -> {
+            respose.add(
+                    new PostResponseDTO(
+                            post.getId(),
+                            post.getTitle(),
+                            post.getSubtitle(),
+                            post.getContent(),
+                            post.getImageUrl(),
+                            post.getCreatedAt()
+                    )
+            );
+        });
+
+        return respose;
     }
 
-    public Post getPostById(UUID id) {
-        return postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post não encontrado com id: " + id));
+    public PostResponseDTO getPostById(UUID id) {
+        Post post =  postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post não encontrado com id: " + id));
+        return new PostResponseDTO(
+                post.getId(),
+                post.getTitle(),
+                post.getSubtitle(),
+                post.getContent(),
+                post.getImageUrl(),
+                post.getCreatedAt()
+        );
     }
 }
