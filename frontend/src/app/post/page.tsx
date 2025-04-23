@@ -15,6 +15,12 @@ interface PostResponse {
   createdAt: Date
 }
 
+interface Options {
+  day:  '2-digit';
+  month: 'long';
+  year: 'numeric';
+}
+
 export default function PostPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -40,10 +46,18 @@ export default function PostPage() {
     return <div>Post não encontrado</div>;
   }
 
+  const options: Options = {
+    day: '2-digit',
+    month: 'long', 
+    year: 'numeric',
+  };
+  
+  const dataFormatada = new Date(post.createdAt).toLocaleDateString('pt-BR', options);
+
   return (
       <div className={styles.container}>
         <article className={styles.post}>
-          <span className={styles.date}>{post.createdAt.toString()}</span>
+          <span className={styles.date}>{dataFormatada}</span>
           <h1 className={styles.title}>{post.title}</h1>
           <h2 className={styles.subtitle}>{post.subtitle}</h2>
           <img src={post.imageUrl} alt={post.title} className={styles.image} />
