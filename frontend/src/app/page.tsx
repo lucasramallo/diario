@@ -79,7 +79,7 @@ const Home: React.FC = () => {
           <div key={post.id} className={styles.cardWrapper}>
             <Card
               id={post.id}
-              date={post.createdAt.toString()}
+              date={post.createdAt}
               title={post.title}
               content={post.content}
               image={post.imageUrl}

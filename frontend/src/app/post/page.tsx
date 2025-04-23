@@ -41,7 +41,6 @@ export default function PostPage() {
   }
 
   return (
-
       <div className={styles.container}>
         <article className={styles.post}>
           <span className={styles.date}>{post.createdAt.toString()}</span>
