@@ -9,6 +9,7 @@ import { Image } from 'primereact/image';
 import InputComponent from './InputComponent';
 import { useStore } from '../store/useStore';
 import { Message } from 'primereact/message';
+import axios from 'axios';
 
 interface FormData {
   titulo: string;
@@ -51,9 +52,31 @@ const Form: React.FC<props> = ({ closeDialog }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const enviarArquivo = async (): Promise<string | undefined | null> => {
+    if (!formData.imagem) {
+      console.error('Nenhuma imagem selecionada.');
+      return;
+    }
+  
+    const data = new FormData();
+    data.append('file', formData.imagem);
+  
+    try {
+      const response = await axios.post('http://localhost:8080/api/posts/upload', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return response.data.url;
+
+    } catch (error) {
+      console.error('Erro ao enviar o arquivo:', error);
+    }
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Dados enviados:', formData);
 
     if (formData.titulo && formData.subtitulo && formData.imagem) {
       setInvalidTitle(false);
@@ -82,11 +105,23 @@ const Form: React.FC<props> = ({ closeDialog }) => {
       return;
     }
 
+    const imageUrl = await enviarArquivo();
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/posts', {
+        title: formData.titulo,
+        subtitle: formData.subtitulo,
+        content: formData.conteudo,
+        imageUrl: imageUrl,
+      });
+
+    } catch (error) {
+      console.error('Erro ao enviar o arquivo:', error);
+    }
+
     setSuccess();
     closeDialog();
   };
-
-  console.log(formData);
 
   return (
     <>

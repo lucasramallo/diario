@@ -2,9 +2,10 @@ import React from "react";
 import Link from "next/link";
 import styles from "../styles/Card.module.css";
 import ButtonComponent from "./ButtonComponent";
+import { UUID } from "crypto";
 
 interface CardProps {
-  id: number;
+  id: UUID;
   date: string;
   title: string;
   content: string;
