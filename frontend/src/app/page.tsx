@@ -10,15 +10,6 @@ import { Toast } from "primereact/toast";
 import axios from 'axios';
 import { UUID } from "crypto";
 
-interface Post {
-  id: number;
-  date: string;
-  title: string;
-  subtitle: string;
-  content: string;
-  image: string;
-}
-
 type PostResponse = {
   id: UUID;
   title: string;
