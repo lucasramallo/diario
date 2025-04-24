@@ -3,12 +3,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import Card from "./Components/Card";
 import styles from "./styles/Home.module.css";
-import Header from "./Components/Header";
 import DialogComponent from "./Components/DialogComponent";
 import { useStore } from './store/useStore';
 import { Toast } from "primereact/toast";
 import axios from 'axios';
 import { UUID } from "crypto";
+import Footer from "./Components/Footer";
 
 type PostResponse = {
   id: UUID;
@@ -70,9 +70,13 @@ const Home: React.FC = () => {
   return (
     <div className={styles.container}>
       <Toast ref={toast} />
-      <Header onOpenDialog={openDialog} />
 
       <DialogComponent visible={dialogVisible} onHide={closeDialog} closeDialog={closeDialog}/>
+
+      <header className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Diário.dev</h1>
+      </header>
+
       
       <div className={styles.grid}>
         {posts.map((post) => (
@@ -87,6 +91,7 @@ const Home: React.FC = () => {
           </div>
         ))}
       </div>
+      <Footer onOpenDialog={openDialog} />
     </div>
   );
 };
